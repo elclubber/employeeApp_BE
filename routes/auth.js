@@ -3,30 +3,36 @@ const router = express.Router();
 
 // Login route to set auth cookie
 router.post('/login', (req, res) => {
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
-    if (username === 'admin' && password === 'password') {
-        // Set an authToken cookie
-        res.cookie('authToken', 'some-token', {
-            httpOnly: true,    // Cookie cannot be accessed via client-side JavaScript
-            maxAge: 60 * 60 * 1000,  // 1 hour
-            sameSite: 'lax',   // Allow cookies in same-origin requests
-        });
-        return res.status(200).json({ message: 'Login successful' });
-    }
+  if (username === 'admin' && password === 'password') {
+    // Set an authToken cookie
+    res.cookie('authToken', 'some-token', {
+      httpOnly: true,    // Cookie cannot be accessed via client-side JavaScript
+      maxAge: 60 * 60 * 1000,  // 1 hour
+      sameSite: 'lax',   // Allow cookies in same-origin requests
+    });
+    return res.status(200).json({ username, message: 'Login successful' });
+  }
 
-    res.status(401).json({ message: 'Invalid credentials' });
+  res.status(401).json({ message: 'Invalid credentials' });
 });
 
 // Check auth route to validate cookie
 router.get('/check-auth', (req, res) => {
-    const authToken = req.cookies.authToken;
+  const authToken = req.cookies.authToken;
 
-    if (authToken) {
-        return res.status(200).json({ loggedIn: true });
-    }
+  if (authToken) {
+    return res.status(200).json({ loggedIn: true });
+  }
 
-    res.status(401).json({ loggedIn: false });
+  res.status(401).json({ loggedIn: false });
+});
+
+// logout
+router.get('/logout', (req, res) => {
+  res.clearCookie('authToken');
+  res.status(200).json({ message: 'Logged out successfully' });
 });
 
 module.exports = router;

@@ -7,6 +7,7 @@ const path = require('path');
 // Third-party modules
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 // Local modules
 const rootDir = require('./utils/path');
@@ -31,6 +32,8 @@ const PORT = process.env.PORT || 8080;
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
+// Use cookie-parser middleware
+app.use(cookieParser());
 
 // Serve static files
 app.use(express.static(path.join(rootDir, 'public')));

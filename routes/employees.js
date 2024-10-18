@@ -3,7 +3,7 @@ const router = express.Router();
 
 // Temporary in-memory storage for employees
 let employees = [
-    { id: 1, name: 'John Doe', email: 'john@example.com', position: 'Manager' },
+    { id: 1, name: 'John Doe', email: 'john@example.com', position: 'Manager', age: 35 },
 ];
 
 // Get all employees
@@ -13,8 +13,9 @@ router.get('/employeeList', (req, res) => {
 
 // Add a new employee
 router.post('/addEmployee', (req, res) => {
-    const { name, email, position } = req.body;
-    const newEmployee = { id: employees.length + 1, name, email, position };
+    const { name, email, position, age } = req.body;
+    const ageToNum = Number(age);
+    const newEmployee = { id: employees.length + 1, name, email, position, age: ageToNum };
     employees.push(newEmployee);
     res.status(201).json(newEmployee);
 });

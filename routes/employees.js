@@ -83,7 +83,24 @@ router.post('/addEmployee', upload.single('image'), (req, res) => {
             console.error(err.message);
             return res.status(500).json({ error: 'Failed to add employee' });
         }
-        res.status(201).json({ id: this.lastID, ...req.body, image: imageUrl });
+        // Format the response with the correct data types
+        const responseEmployee = {
+            id: this.lastID,
+            name,
+            email,
+            position,
+            age: parseInt(age) || null,  // Convert to number
+            phone,
+            address,
+            department,
+            joiningDate,
+            salary: parseFloat(salary) || null,  // Convert to number
+            maritalStatus,
+            employeeType,
+            image: imageUrl,
+        };
+
+        res.status(201).json(responseEmployee);
     });
 });
 

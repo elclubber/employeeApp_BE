@@ -8,6 +8,7 @@ const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
 // Local modules
 const rootDir = require('./utils/path');
@@ -26,6 +27,13 @@ app.use(
         allowedHeaders: ['Content-Type', 'Authorization'],
     })
 );
+
+// **Increase JSON and URL-encoded payload limits**
+app.use(bodyParser.json({ limit: '10mb' }));  // Increase JSON limit
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));  // Increase URL-encoded limit
+
+// Serve static files from the uploads directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Set port from environment variables or default to 8080
 const PORT = process.env.PORT || 8080;

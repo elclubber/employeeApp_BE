@@ -80,8 +80,8 @@ router.post('/addEmployee', upload.single('image'), (req, res) => {
 
     db.run(sql, params, function (err) {
         if (err) {
-            console.error(err.message);
-            return res.status(500).json({ error: 'Failed to add employee' });
+            console.error(err);
+            return res.status(409).json({ error: 'Email already exists' });
         }
         // Format the response with the correct data types
         const responseEmployee = {

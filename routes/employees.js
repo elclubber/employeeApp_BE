@@ -159,4 +159,10 @@ router.put('/updateEmployee/:id', upload.single('image'), (req, res) => {
     });
 });
 
+router.use('/deployTest', (req, res, next) => {
+    const test = 'IT works';
+    console.log(test, 'test');
+    res.send(test);
+});
+
 module.exports = router;
